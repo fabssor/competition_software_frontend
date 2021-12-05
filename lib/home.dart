@@ -13,8 +13,8 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Row(
+    return Expanded(
+      child: Row(
         children: <Widget>[
           NavigationRail(
             selectedIndex: _selectedIndex,
@@ -48,15 +48,14 @@ class _HomeState extends State<Home> {
               ),
             ],
           ),
-          const VerticalDivider(thickness: 1, width: 1),
+          const VerticalDivider(
+            thickness: 1,
+            width: 1,
+          ),
           // This is the main content.
           Expanded(
             child: Details(_selectedIndex),
-
-            // Center(
-            //   child: Text('selectedIndex: $_selectedIndex'),
-            // ),
-          )
+          ),
         ],
       ),
     );
