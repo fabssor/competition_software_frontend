@@ -11,6 +11,7 @@ class Competitors extends StatefulWidget {
 
 class _CompetitorsState extends State<Competitors> {
   final TextEditingController _controller = TextEditingController();
+  final _spaceBetweenColumnItems = 10.0;
 
   gender? _gender = gender.female;
 
@@ -54,17 +55,6 @@ class _CompetitorsState extends State<Competitors> {
     );
   }
 
-  Widget _buildGenderRadioButton({required Text title, required gender value}) {
-    return Expanded(
-      child: RadioListTile<gender>(
-        title: title,
-        value: value,
-        groupValue: _gender,
-        onChanged: (gender? value) => setState(() => _gender = value),
-      ),
-    );
-  }
-
   Future<void> addCompetitorDialog(BuildContext context) async {
     return await showDialog(
         context: context,
@@ -73,13 +63,16 @@ class _CompetitorsState extends State<Competitors> {
             return AlertDialog(
               title: const Text("Teilnehmer hinzufügen"),
               content: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   _buildTextFormField(
                     labelText: "Nachname",
                   ),
+                  SizedBox(height: _spaceBetweenColumnItems),
                   _buildTextFormField(
                     labelText: "Vorname",
                   ),
+                  SizedBox(height: _spaceBetweenColumnItems),
                   _buildTextFormField(
                     controller: _controller,
                     readOnly: true,
@@ -95,15 +88,26 @@ class _CompetitorsState extends State<Competitors> {
                       }
                     },
                   ),
+                  SizedBox(height: _spaceBetweenColumnItems),
                   Row(
                     children: [
-                      _buildGenderRadioButton(
-                        title: const Text("männlich"),
-                        value: gender.male,
+                      Expanded(
+                        child: RadioListTile<gender>(
+                          title: const Text("männlich"),
+                          value: gender.male,
+                          groupValue: _gender,
+                          onChanged: (gender? value) =>
+                              setState(() => _gender = value),
+                        ),
                       ),
-                      _buildGenderRadioButton(
-                        title: const Text("weiblich"),
-                        value: gender.female,
+                      Expanded(
+                        child: RadioListTile<gender>(
+                          title: const Text("weiblich"),
+                          value: gender.female,
+                          groupValue: _gender,
+                          onChanged: (gender? value) =>
+                              setState(() => _gender = value),
+                        ),
                       ),
                     ],
                   ),
@@ -114,17 +118,17 @@ class _CompetitorsState extends State<Competitors> {
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: Text("Abbrechen"),
+                  child: const Text("Abbrechen"),
                 ),
                 TextButton(
                   onPressed: () {},
-                  child: Text("Hinzufügen & Neu"),
+                  child: const Text("Hinzufügen & Neu"),
                 ),
                 TextButton(
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: Text("Hinzufügen"),
+                  child: const Text("Hinzufügen"),
                 ),
               ],
             );
