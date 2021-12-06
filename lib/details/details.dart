@@ -13,15 +13,15 @@ class Details extends StatelessWidget {
   Widget build(BuildContext context) {
     switch (_index) {
       case 0:
-        return Competitors();
+        return const Competitors();
       case 1:
-        return Runs();
+        return const Runs();
       case 2:
-        return Times();
+        return const Times();
       case 3:
-        return Evaluation();
+        return const Evaluation();
       default:
-        return Competitors();
+        return const Competitors();
     }
   }
 }
