@@ -6,11 +6,9 @@ import 'home.dart';
 void main(List<String> args) {
   runApp(const CsFrontend());
   doWhenWindowReady(() {
-    // final initialSize = Size(600, 450);
-    // appWindow.minSize = initialSize;
-    // appWindow.size = initialSize;
-    appWindow.alignment = Alignment.center;
-    appWindow.show();
+    const initialSize = Size(1000, 420);
+    appWindow.minSize = initialSize;
+    appWindow.size = initialSize;
   });
 }
 
@@ -20,14 +18,14 @@ class CsFrontend extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      localizationsDelegates: [
+      localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
       ],
-      supportedLocales: [
+      supportedLocales: const [
         Locale('de'),
       ],
-      locale: Locale('de'),
+      locale: const Locale('de'),
       home: Scaffold(
         body: Column(
           children: [
@@ -48,17 +46,20 @@ class CsFrontend extends StatelessWidget {
 }
 
 final buttonColors = WindowButtonColors(
-    iconNormal: Color(0xFF805306),
-    mouseOver: Color(0xFFF6A00C),
-    mouseDown: Color(0xFF805306),
-    iconMouseOver: Color(0xFF805306),
-    iconMouseDown: Color(0xFFFFD500));
+  iconNormal: Colors.black,
+  mouseOver: Colors.blue,
+  mouseDown: Colors.blue.shade200,
+  iconMouseOver: Colors.black,
+  iconMouseDown: Colors.black,
+);
 
 final closeButtonColors = WindowButtonColors(
-    mouseOver: Color(0xFFD32F2F),
-    mouseDown: Color(0xFFB71C1C),
-    iconNormal: Color(0xFF805306),
-    iconMouseOver: Colors.white);
+  mouseOver: Colors.red,
+  mouseDown: Colors.red.shade200,
+  iconNormal: Colors.black,
+  iconMouseOver: Colors.white,
+  iconMouseDown: Colors.white,
+);
 
 class WindowButtons extends StatelessWidget {
   const WindowButtons({Key? key}) : super(key: key);
