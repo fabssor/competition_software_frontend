@@ -69,7 +69,7 @@ class _CompetitorsState extends State<Competitors> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          await addCompetitorDialog(
+          await competitorDialog(
             context,
             "Teilnehmer hinzufügen",
             _spaceBetweenColumnItems,

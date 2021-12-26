@@ -62,7 +62,7 @@ Future<DateTime?> getDate(BuildContext context) async {
   return date;
 }
 
-Future<void> addCompetitorDialog(
+Future<void> competitorDialog(
   BuildContext context,
   String dialogTitle,
   double spaceBetweenColumnItems,
