@@ -5,11 +5,11 @@ import 'home.dart';
 
 void main(List<String> args) {
   runApp(const CsFrontend());
-  doWhenWindowReady(() {
-    const initialSize = Size(1000, 420);
-    appWindow.minSize = initialSize;
-    appWindow.size = initialSize;
-  });
+  const initialSize = Size(1200, 700);
+  appWindow.minSize = initialSize;
+  appWindow.size = initialSize;
+  appWindow.alignment = Alignment.center;
+  appWindow.show();
 }
 
 class CsFrontend extends StatelessWidget {
