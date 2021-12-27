@@ -17,13 +17,20 @@ class MockBackend implements IBackend {
   }
 
   @override
-  Competitor getCompetitor(int id) {
-    // TODO: implement getCompetitor
-    throw UnimplementedError();
+  Competitor getCompetitor(int index) {
+    return competitors.elementAt(index);
   }
 
   @override
   int getNumberOfCompetitors() {
     return competitors.length;
+  }
+
+  @override
+  Competitor editCompetitor(int id, Competitor competitor) {
+    int index = competitors.indexWhere((element) => element.id == id);
+    competitor.id = id;
+    competitors[index] = competitor;
+    return competitors[index];
   }
 }

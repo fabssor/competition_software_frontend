@@ -6,6 +6,17 @@ extension ParseToString on Gender {
   String toString2() {
     return toString().split('.').last;
   }
+
+  String toString3() {
+    return (this == Gender.male) ? "männlich" : "weiblich";
+  }
+}
+
+extension ParseToString2 on DateTime {
+  String toString2() {
+    final DateFormat formatter = DateFormat('dd.MM.yyyy');
+    return formatter.format(this);
+  }
 }
 
 class Competitor {
@@ -44,7 +55,6 @@ class Competitor {
 
   @override
   String toString() {
-    final DateFormat formatter = DateFormat('dd-MM-yyyy');
-    return "ID: $id, Forename: $forename, Surename: $surename, Gender: ${gender.toString2()}, Birthday: ${formatter.format(birthday)}";
+    return "ID: $id, Forename: $forename, Surename: $surename, Gender: ${gender.toString2()}, Birthday: ${birthday.toString2()}";
   }
 }

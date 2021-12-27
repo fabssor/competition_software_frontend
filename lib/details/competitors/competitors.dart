@@ -7,8 +7,6 @@ import 'package:competition_software_frontend/api/competitor.dart';
 
 import 'package:competition_software_frontend/details/competitors/competitor_dialog.dart';
 
-const _spaceBetweenColumnItems = 10.0;
-
 class Competitors extends StatefulWidget {
   const Competitors(this._backend, {Key? key}) : super(key: key);
   final IBackend _backend;
@@ -56,7 +54,11 @@ class _CompetitorsState extends State<Competitors> {
                   size: ColumnSize.M,
                 )
               ],
-              source: MyData(context),
+              source: MyData(
+                context,
+                widget._backend,
+                setState,
+              ),
               showFirstLastButtons: true,
               fit: FlexFit.tight,
               autoRowsToHeight: true,
@@ -72,9 +74,9 @@ class _CompetitorsState extends State<Competitors> {
           await competitorDialog(
             context,
             "Teilnehmer hinzufügen",
-            _spaceBetweenColumnItems,
             widget._backend,
           );
+          setState(() {});
         },
         child: const Icon(Icons.person_add),
         backgroundColor: Colors.blue,
@@ -83,60 +85,63 @@ class _CompetitorsState extends State<Competitors> {
   }
 }
 
-DataRow setDummyEntry(
-  BuildContext context,
-) {
-  return DataRow(
-    cells: [
-      const DataCell(
-        Text('0'),
-      ),
-      const DataCell(Text('Sorkalla')),
-      const DataCell(Text('Fabian')),
-      const DataCell(Text('männlich')),
-      const DataCell(Text('04.01.1995')),
-      DataCell(
-        Wrap(
-          spacing: 0, // space between two icons
-          children: <Widget>[
-            IconButton(
-              icon: const Icon(Icons.edit),
-              onPressed: () async {
-                // await addCompetitorDialog(
-                //   context,
-                //   "Teilnehmer bearbeiten",
-                //   _spaceBetweenColumnItems,
-                //   _controller,
-                //   widget._backend,
-                // );
-              },
-            ),
-            IconButton(
-              icon: const Icon(Icons.delete),
-              onPressed: () {},
-            ),
-          ],
-        ),
-      ),
-    ],
-  );
-}
-
 class MyData extends DataTableSource {
   final BuildContext _context;
+  final IBackend _backend;
+  final Function _setState;
 
-  MyData(this._context);
+  MyData(this._context, this._backend, this._setState);
 
   @override
   DataRow? getRow(int index) {
-    return setDummyEntry(_context);
+    Competitor competitor = _backend.getCompetitor(index);
+    debugPrint("Index: $index");
+    return DataRow.byIndex(
+      index: index,
+      cells: [
+        DataCell(
+          Text(competitor.id.toString()),
+        ),
+        DataCell(Text(competitor.surename.toString())),
+        DataCell(Text(competitor.forename.toString())),
+        DataCell(Text(competitor.gender.toString3())),
+        DataCell(Text(competitor.birthday.toString2())),
+        DataCell(
+          Wrap(
+            spacing: 0, // space between two icons
+            children: <Widget>[
+              IconButton(
+                icon: const Icon(Icons.edit),
+                onPressed: () async {
+                  await competitorDialog(
+                    _context,
+                    "Teilnehmer bearbeiten",
+                    _backend,
+                    competitor.id,
+                    competitor.surename,
+                    competitor.forename,
+                    competitor.gender,
+                    competitor.birthday,
+                  );
+                  _setState(() {});
+                },
+              ),
+              IconButton(
+                icon: const Icon(Icons.delete),
+                onPressed: () {},
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
   }
 
   @override
   bool get isRowCountApproximate => false;
 
   @override
-  int get rowCount => 100;
+  int get rowCount => _backend.getNumberOfCompetitors();
 
   @override
   int get selectedRowCount => 100;
