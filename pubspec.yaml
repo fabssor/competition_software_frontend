@@ -38,6 +38,8 @@ dependencies:
     sdk: flutter
   bitsdojo_window: ^0.1.1
   data_table_2: ^2.2.0
+  another_flushbar: ^1.10.28
+
 
 dev_dependencies:
   flutter_test:

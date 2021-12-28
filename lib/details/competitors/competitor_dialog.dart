@@ -73,7 +73,7 @@ Future<DateTime?> getDate(BuildContext context) async {
   return date;
 }
 
-Future<void> competitorDialog(
+Future<bool> competitorDialog(
   BuildContext context,
   String dialogTitle,
   IBackend backend, [
@@ -105,7 +105,7 @@ Future<void> competitorDialog(
       (gender != null) ||
       (id != null));
 
-  return await showDialog(
+  bool? result = await showDialog(
       context: context,
       builder: (context) {
         return StatefulBuilder(builder: (context, setState) {
@@ -163,7 +163,7 @@ Future<void> competitorDialog(
             actions: <Widget>[
               TextButton(
                 onPressed: () {
-                  Navigator.of(context).pop();
+                  Navigator.of(context).pop(false);
                 },
                 child: const Text("Abbrechen"),
               ),
@@ -177,7 +177,7 @@ Future<void> competitorDialog(
                       _birthday,
                     );
                     backend.editCompetitor(id!, competitor);
-                    Navigator.of(context).pop();
+                    Navigator.of(context).pop(true);
                   },
                   child: const Text('Bestätigen'),
                 )
@@ -190,7 +190,9 @@ Future<void> competitorDialog(
                       _gender,
                       _birthday,
                     );
-                    backend.createCompetitor(competitor);
+                    if (_formKey.currentState!.validate()) {
+                      backend.createCompetitor(competitor);
+                    }
                   },
                   child: const Text("Hinzufügen & Neu"),
                 ),
@@ -204,9 +206,7 @@ Future<void> competitorDialog(
                     );
                     if (_formKey.currentState!.validate()) {
                       backend.createCompetitor(competitor);
-                      Navigator.of(context).pop();
-                    } else {
-                      Logger.log("");
+                      Navigator.of(context).pop(true);
                     }
                   },
                   child: const Text("Hinzufügen"),
@@ -216,4 +216,7 @@ Future<void> competitorDialog(
           );
         });
       });
+  // if null dialog was dismissed... return false to indicate cancelation...
+  result ??= false;
+  return result;
 }

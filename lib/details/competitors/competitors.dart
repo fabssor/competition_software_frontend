@@ -6,6 +6,7 @@ import 'package:competition_software_frontend/api/i_backend.dart';
 import 'package:competition_software_frontend/api/competitor.dart';
 
 import 'package:competition_software_frontend/details/competitors/competitor_dialog.dart';
+import 'package:competition_software_frontend/internals/logger.dart';
 
 class Competitors extends StatefulWidget {
   const Competitors(this._backend, {Key? key}) : super(key: key);
@@ -71,11 +72,13 @@ class _CompetitorsState extends State<Competitors> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          await competitorDialog(
+          if (await competitorDialog(
             context,
             "Teilnehmer hinzufügen",
             widget._backend,
-          );
+          )) {
+            Logger.logSnackbar(context, "Teilnehmer angelegt!");
+          }
           setState(() {});
         },
         child: const Icon(Icons.person_add),
