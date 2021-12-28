@@ -9,11 +9,12 @@ int nextId = 0;
 
 class MockBackend implements IBackend {
   @override
-  void createCompetitor(Competitor competitor) {
+  Competitor createCompetitor(Competitor competitor) {
     competitor.id = nextId;
     nextId++;
     competitors.add(competitor);
     Logger.log("Creating Competitor - " + competitor.toString());
+    return competitor;
   }
 
   @override
@@ -31,6 +32,14 @@ class MockBackend implements IBackend {
     int index = competitors.indexWhere((element) => element.id == id);
     competitor.id = id;
     competitors[index] = competitor;
+    Logger.log("Editing Competitor - " + competitors[index].toString());
     return competitors[index];
+  }
+
+  @override
+  Competitor removeCompetitor(int id) {
+    int index = competitors.indexWhere((element) => element.id == id);
+    Logger.log("Removing Competitor - " + competitors[index].toString());
+    return competitors.removeAt(index);
   }
 }

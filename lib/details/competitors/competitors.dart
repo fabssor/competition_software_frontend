@@ -116,7 +116,7 @@ class MyData extends DataTableSource {
               IconButton(
                 icon: const Icon(Icons.edit),
                 onPressed: () async {
-                  await competitorDialog(
+                  if (await competitorDialog(
                     _context,
                     "Teilnehmer bearbeiten",
                     _backend,
@@ -125,13 +125,19 @@ class MyData extends DataTableSource {
                     competitor.forename,
                     competitor.gender,
                     competitor.birthday,
-                  );
-                  _setState(() {});
+                  )) {
+                    Logger.logSnackbar(_context, "Teilnehmer bearbeitet!");
+                    _setState(() {});
+                  }
                 },
               ),
               IconButton(
                 icon: const Icon(Icons.delete),
-                onPressed: () {},
+                onPressed: () {
+                  _backend.removeCompetitor(competitor.id!);
+                  Logger.logSnackbar(_context, "Teilnehmer entfernt!");
+                  _setState(() {});
+                },
               ),
             ],
           ),

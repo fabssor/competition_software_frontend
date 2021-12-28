@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:competition_software_frontend/api/competitor.dart';
 import 'package:competition_software_frontend/api/i_backend.dart';
-import 'package:competition_software_frontend/internals/logger.dart';
 
 const _spaceBetweenColumnItems = 10.0;
 Gender _gender = Gender.female;
