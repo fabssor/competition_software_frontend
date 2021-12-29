@@ -2,7 +2,6 @@ import 'package:competition_software_frontend/api/competitor.dart';
 
 import 'package:competition_software_frontend/api/i_backend.dart';
 import 'package:competition_software_frontend/internals/logger.dart';
-import 'package:flutter/material.dart';
 
 List<Competitor> competitors = <Competitor>[];
 int nextId = 0;
