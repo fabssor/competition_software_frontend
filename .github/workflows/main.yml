@@ -18,6 +18,9 @@ jobs:
         with:
           flutter-version: '2.8.1'
 
+      - name: Run flutter doctor for debuggin
+        run: flutter doctor
+
       - name: Install dependencies
         run: flutter pub get
 
@@ -31,4 +34,6 @@ jobs:
         run: flutter test
       
       - name: Build Linux application
-        run: flutter build linux
+        run: |
+          flutter config --enable-linux-desktop
+          flutter build linux
