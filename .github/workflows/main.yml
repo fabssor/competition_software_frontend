@@ -1,4 +1,4 @@
-name: Dart
+name: main
 
 on:
   push:
@@ -13,17 +13,19 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       
-      # Setup Dart SDK
-      - uses: dart-lang/setup-dart@9a04e6d73cca37bd455e0608d7e5092f881fd603
+      # Setup Flutter
+      - uses: subosito/flutter-action@v1
+        with:
+          flutter-version: '2.8.1'
 
       - name: Install dependencies
-        run: dart pub get
+        run: flutter pub get
 
       - name: Verify formatting
-        run: dart format --output=none --set-exit-if-changed .
+        run: flutter format --output=none --set-exit-if-changed .
 
       - name: Analyze project source
-        run: dart analyze --fatal-infos
+        run: flutter analyze --fatal-infos
 
       - name: Run tests
-        run: dart test
+        run: flutter test
