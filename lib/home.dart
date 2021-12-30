@@ -32,6 +32,11 @@ class _HomeState extends State<Home> {
                 label: Text('Teilnehmer'),
               ),
               NavigationRailDestination(
+                icon: Icon(Icons.groups_outlined),
+                selectedIcon: Icon(Icons.groups),
+                label: Text('Altersklassen'),
+              ),
+              NavigationRailDestination(
                 icon: Icon(Icons.flag_outlined),
                 selectedIcon: Icon(Icons.flag),
                 label: Text('Läufe'),

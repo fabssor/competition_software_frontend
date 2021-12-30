@@ -8,7 +8,7 @@ int nextId = 0;
 
 class MockBackend implements IBackend {
   @override
-  Competitor createCompetitor(Competitor competitor) {
+  Competitor? createCompetitor(Competitor competitor) {
     competitor.id = nextId;
     nextId++;
     competitors.add(competitor);
@@ -17,7 +17,7 @@ class MockBackend implements IBackend {
   }
 
   @override
-  Competitor getCompetitor(int index) {
+  Competitor? getCompetitor(int index) {
     return competitors.elementAt(index);
   }
 
@@ -27,9 +27,9 @@ class MockBackend implements IBackend {
   }
 
   @override
-  Competitor editCompetitor(int id, Competitor competitor) {
-    int index = competitors.indexWhere((element) => element.id == id);
-    competitor.id = id;
+  Competitor? editCompetitor(Competitor competitor) {
+    int index =
+        competitors.indexWhere((element) => element.id == competitor.id);
     competitors[index] = competitor;
     Logger.log("Editing Competitor - " + competitors[index].toString());
     return competitors[index];
@@ -40,5 +40,10 @@ class MockBackend implements IBackend {
     int index = competitors.indexWhere((element) => element.id == id);
     Logger.log("Removing Competitor - " + competitors[index].toString());
     return competitors.removeAt(index);
+  }
+
+  @override
+  List<Competitor> getCompetitors() {
+    return competitors;
   }
 }

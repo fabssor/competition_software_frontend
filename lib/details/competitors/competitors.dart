@@ -97,8 +97,7 @@ class MyData extends DataTableSource {
 
   @override
   DataRow? getRow(int index) {
-    Competitor competitor = _backend.getCompetitor(index);
-    debugPrint("Index: $index");
+    Competitor competitor = _backend.getCompetitor(index)!;
     return DataRow.byIndex(
       index: index,
       cells: [

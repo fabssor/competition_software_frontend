@@ -3,6 +3,7 @@ import 'package:competition_software_frontend/details/competitors/competitors.da
 import 'package:competition_software_frontend/details/evaluation.dart';
 import 'package:competition_software_frontend/details/runs.dart';
 import 'package:competition_software_frontend/details/times.dart';
+import 'package:competition_software_frontend/details/age_groups/age_groups.dart';
 import 'package:competition_software_frontend/api/mock_backend.dart';
 
 class Details extends StatelessWidget {
@@ -17,10 +18,12 @@ class Details extends StatelessWidget {
       case 0:
         return Competitors(m);
       case 1:
-        return const Runs();
+        return const AgeGroups();
       case 2:
-        return const Times();
+        return const Runs();
       case 3:
+        return const Times();
+      case 4:
         return const Evaluation();
       default:
         return Competitors(m);

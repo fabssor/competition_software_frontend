@@ -169,13 +169,14 @@ Future<bool> competitorDialog(
               if (isEdit)
                 TextButton(
                   onPressed: () {
-                    Competitor competitor = Competitor(
+                    Competitor competitor = Competitor.withId(
+                      id,
                       forenameController.text,
                       surenameController.text,
                       _gender,
                       _birthday,
                     );
-                    backend.editCompetitor(id!, competitor);
+                    backend.editCompetitor(competitor);
                     Navigator.of(context).pop(true);
                   },
                   child: const Text('Bestätigen'),
