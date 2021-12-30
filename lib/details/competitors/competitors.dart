@@ -5,8 +5,10 @@ import 'package:data_table_2/data_table_2.dart';
 import 'package:competition_software_frontend/api/i_backend.dart';
 import 'package:competition_software_frontend/api/competitor.dart';
 
-import 'package:competition_software_frontend/details/competitors/competitor_dialog.dart';
 import 'package:competition_software_frontend/internals/logger.dart';
+
+import 'package:competition_software_frontend/details/competitors/competitor_dialog.dart';
+import 'package:competition_software_frontend/details/common/accept_dialog.dart';
 
 class Competitors extends StatefulWidget {
   const Competitors(this._backend, {Key? key}) : super(key: key);
@@ -132,10 +134,13 @@ class MyData extends DataTableSource {
               ),
               IconButton(
                 icon: const Icon(Icons.delete),
-                onPressed: () {
-                  _backend.removeCompetitor(competitor.id!);
-                  Logger.logSnackbar(_context, "Teilnehmer entfernt!");
-                  _setState(() {});
+                onPressed: () async {
+                  if (await acceptDialog(_context, "Teilnehemer löschen",
+                      "Soll der Teilnehmer gelöscht werden?")) {
+                    _backend.removeCompetitor(competitor.id!);
+                    Logger.logSnackbar(_context, "Teilnehmer entfernt!");
+                    _setState(() {});
+                  }
                 },
               ),
             ],
