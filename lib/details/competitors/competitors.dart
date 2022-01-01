@@ -74,14 +74,24 @@ class _CompetitorsState extends State<Competitors> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          if (await competitorDialog(
-            context,
-            "Teilnehmer hinzufügen",
-            widget._backend,
-          )) {
-            Logger.logSnackbar(context, "Teilnehmer angelegt!");
-          }
-          setState(() {});
+          List<Competitor>? competitors =
+              await competitorDialog(context, "Teilnehmer hinzufügen");
+
+          setState(() {
+            if (competitors == null) {
+              // do nothing dialog was dismissed with no competitor created
+            } else if (competitors.isNotEmpty) {
+              if (competitors.length == 1) {
+                widget._backend.createCompetitor(competitors[0]);
+                Logger.logSnackbar(context, "Teilnehmer angelegt!");
+              } else {
+                for (Competitor competitor in competitors) {
+                  widget._backend.createCompetitor(competitor);
+                }
+                Logger.logSnackbar(context, "Teilnehmer angelegt!");
+              }
+            }
+          });
         },
         child: const Icon(Icons.person_add),
         backgroundColor: Colors.blue,
@@ -117,19 +127,23 @@ class MyData extends DataTableSource {
               IconButton(
                 icon: const Icon(Icons.edit),
                 onPressed: () async {
-                  if (await competitorDialog(
+                  List<Competitor>? competitors = await competitorDialog(
                     _context,
                     "Teilnehmer bearbeiten",
-                    _backend,
                     competitor.id,
                     competitor.surename,
                     competitor.forename,
                     competitor.gender,
                     competitor.birthday,
-                  )) {
-                    Logger.logSnackbar(_context, "Teilnehmer bearbeitet!");
-                    _setState(() {});
-                  }
+                  );
+                  _setState(() {
+                    if (competitors == null) {
+                      // do nothing dialog was dismissed with no competitor created
+                    } else if (competitors.isNotEmpty) {
+                      _backend.editCompetitor(competitors[0]);
+                      Logger.logSnackbar(_context, "Teilnehmer bearbeitet!");
+                    }
+                  });
                 },
               ),
               IconButton(
@@ -137,9 +151,10 @@ class MyData extends DataTableSource {
                 onPressed: () async {
                   if (await acceptDialog(_context, "Teilnehemer löschen",
                       "Soll der Teilnehmer gelöscht werden?")) {
-                    _backend.removeCompetitor(competitor.id!);
-                    Logger.logSnackbar(_context, "Teilnehmer entfernt!");
-                    _setState(() {});
+                    _setState(() {
+                      _backend.removeCompetitor(competitor.id!);
+                      Logger.logSnackbar(_context, "Teilnehmer entfernt!");
+                    });
                   }
                 },
               ),

@@ -1,3 +1,4 @@
+import 'package:competition_software_frontend/api/mock_backend.dart';
 import 'package:flutter/material.dart';
 import 'package:competition_software_frontend/api/competitor.dart';
 import 'package:competition_software_frontend/api/i_backend.dart';
@@ -72,10 +73,9 @@ Future<DateTime?> getDate(BuildContext context) async {
   return date;
 }
 
-Future<bool> competitorDialog(
+Future<List<Competitor>?> competitorDialog(
   BuildContext context,
-  String dialogTitle,
-  IBackend backend, [
+  String dialogTitle, [
   int? id,
   String? surename,
   String? forename,
@@ -104,7 +104,9 @@ Future<bool> competitorDialog(
       (gender != null) ||
       (id != null));
 
-  bool? result = await showDialog(
+  List<Competitor> competitors = <Competitor>[];
+
+  await showDialog(
       context: context,
       builder: (context) {
         return StatefulBuilder(builder: (context, setState) {
@@ -162,51 +164,54 @@ Future<bool> competitorDialog(
             actions: <Widget>[
               TextButton(
                 onPressed: () {
-                  Navigator.of(context).pop(false);
+                  if (competitors.isEmpty) {
+                    Navigator.of(context).pop(null);
+                  } else {
+                    // If there where some competitors already created do not
+                    // dismiss them...
+                    Navigator.of(context).pop(competitors);
+                  }
                 },
                 child: const Text("Abbrechen"),
               ),
               if (isEdit)
                 TextButton(
                   onPressed: () {
-                    Competitor competitor = Competitor.withId(
+                    competitors.add(Competitor.withId(
                       id,
                       forenameController.text,
                       surenameController.text,
                       _gender,
                       _birthday,
-                    );
-                    backend.editCompetitor(competitor);
-                    Navigator.of(context).pop(true);
+                    ));
+                    Navigator.of(context).pop(competitors);
                   },
                   child: const Text('Bestätigen'),
                 )
               else ...[
                 TextButton(
                   onPressed: () {
-                    Competitor competitor = Competitor(
-                      forenameController.text,
-                      surenameController.text,
-                      _gender,
-                      _birthday,
-                    );
                     if (_formKey.currentState!.validate()) {
-                      backend.createCompetitor(competitor);
+                      competitors.add(Competitor(
+                        forenameController.text,
+                        surenameController.text,
+                        _gender,
+                        _birthday,
+                      ));
                     }
                   },
                   child: const Text("Hinzufügen & Neu"),
                 ),
                 TextButton(
                   onPressed: () {
-                    Competitor competitor = Competitor(
-                      forenameController.text,
-                      surenameController.text,
-                      _gender,
-                      _birthday,
-                    );
                     if (_formKey.currentState!.validate()) {
-                      backend.createCompetitor(competitor);
-                      Navigator.of(context).pop(true);
+                      competitors.add(Competitor(
+                        forenameController.text,
+                        surenameController.text,
+                        _gender,
+                        _birthday,
+                      ));
+                      Navigator.of(context).pop(competitors);
                     }
                   },
                   child: const Text("Hinzufügen"),
@@ -216,7 +221,5 @@ Future<bool> competitorDialog(
           );
         });
       });
-  // if null dialog was dismissed... return false to indicate cancelation...
-  result ??= false;
-  return result;
+  return competitors;
 }
