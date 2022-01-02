@@ -5,8 +5,6 @@ import 'package:flutter/material.dart';
 class AgeGroups extends StatelessWidget {
   const AgeGroups({Key? key}) : super(key: key);
 
-  static const double _spaceToButton = 60.0;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -7,48 +7,53 @@ Gender _gender = Gender.female;
 DateTime _birthday = DateTime.now();
 final _formKey = GlobalKey<FormState>();
 
-Widget _buildTextFormField(
-    {required String labelText,
-    TextEditingController? controller,
-    bool readOnly = false,
-    Widget? suffixIcon,
-    Future<void> Function()? onTap,
-    List<TextInputFormatter>? inputFormatters}) {
-  return TextFormField(
-    controller: controller,
-    readOnly: readOnly,
-    decoration: InputDecoration(
-      border: const OutlineInputBorder(),
-      labelText: labelText,
-      suffixIcon: suffixIcon,
-      counterText: ' ',
-    ),
-    onTap: onTap,
-    validator: (value) {
-      if (value == null || value.isEmpty) {
-        return "Bitte geben Sie einen Text ein!";
-      }
-      return null;
-    },
-    inputFormatters: inputFormatters,
-  );
+class CustomTextFormField extends TextFormField {
+  CustomTextFormField(
+      {Key? key,
+      required String labelText,
+      TextEditingController? controller,
+      bool readOnly = false,
+      Widget? suffixIcon,
+      Future<void> Function()? onTap,
+      List<TextInputFormatter>? inputFormatters})
+      : super(
+          key: key,
+          controller: controller,
+          readOnly: readOnly,
+          decoration: InputDecoration(
+            border: const OutlineInputBorder(),
+            labelText: labelText,
+            suffixIcon: suffixIcon,
+            counterText: ' ',
+          ),
+          onTap: onTap,
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return "Bitte geben Sie einen Text ein!";
+            }
+            return null;
+          },
+          inputFormatters: inputFormatters,
+        );
 }
 
-Widget _buildGenderRadioButton(
-  String labelText,
-  Gender value,
-  StateSetter setState,
-) {
-  return Expanded(
-    child: RadioListTile<Gender>(
-      title: Text(labelText),
-      value: value,
-      groupValue: _gender,
-      onChanged: (Gender? v) {
-        setState(() => _gender = v!);
-      },
-    ),
-  );
+class GenderRadioButton extends Expanded {
+  GenderRadioButton({
+    Key? key,
+    required String labelText,
+    required Gender value,
+    required StateSetter setState,
+  }) : super(
+          key: key,
+          child: RadioListTile<Gender>(
+            title: Text(labelText),
+            value: value,
+            groupValue: _gender,
+            onChanged: (Gender? v) {
+              setState(() => _gender = v!);
+            },
+          ),
+        );
 }
 
 Future<DateTime?> getDate(BuildContext context) async {
@@ -119,16 +124,16 @@ Future<List<Competitor>?> competitorDialog(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   const SizedBox(height: _spaceBetweenColumnItems),
-                  _buildTextFormField(
+                  CustomTextFormField(
                     controller: forenameController,
                     labelText: "Vorname",
                   ),
-                  _buildTextFormField(
+                  CustomTextFormField(
                     controller: surenameController,
                     labelText: "Nachname",
                   ),
                   const SizedBox(height: _spaceBetweenColumnItems),
-                  _buildTextFormField(
+                  CustomTextFormField(
                     controller: birthdayController,
                     readOnly: true,
                     labelText: "Geburtsdatum",
@@ -159,15 +164,15 @@ Future<List<Competitor>?> competitorDialog(
                   const SizedBox(height: _spaceBetweenColumnItems),
                   Row(
                     children: [
-                      _buildGenderRadioButton(
-                        "männlich",
-                        Gender.male,
-                        setState,
+                      GenderRadioButton(
+                        labelText: "männlich",
+                        value: Gender.male,
+                        setState: setState,
                       ),
-                      _buildGenderRadioButton(
-                        "weiblich",
-                        Gender.female,
-                        setState,
+                      GenderRadioButton(
+                        labelText: "weiblich",
+                        value: Gender.female,
+                        setState: setState,
                       )
                     ],
                   ),
