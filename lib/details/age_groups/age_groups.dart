@@ -1,10 +1,19 @@
+import 'package:competition_software_frontend/api/competitor.dart';
+import 'package:competition_software_frontend/api/helper.dart';
+import 'package:competition_software_frontend/api/i_backend.dart';
 import 'package:competition_software_frontend/details/common/data_table_heading.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 
-class AgeGroups extends StatelessWidget {
-  const AgeGroups({Key? key}) : super(key: key);
+class AgeGroups extends StatefulWidget {
+  const AgeGroups(this._backend, {Key? key}) : super(key: key);
+  final IBackend _backend;
 
+  @override
+  State<AgeGroups> createState() => _AgeGroupsState();
+}
+
+class _AgeGroupsState extends State<AgeGroups> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +38,7 @@ class AgeGroups extends StatelessWidget {
                   size: ColumnSize.L,
                 ),
               ],
-              source: YearsData(),
+              source: YearsData(widget._backend),
               showFirstLastButtons: true,
               fit: FlexFit.tight,
               autoRowsToHeight: true,
@@ -54,7 +63,7 @@ class AgeGroups extends StatelessWidget {
                   size: ColumnSize.L,
                 ),
               ],
-              source: YearsData(),
+              source: YearsData(widget._backend),
               showFirstLastButtons: true,
               fit: FlexFit.tight,
               autoRowsToHeight: true,
@@ -73,18 +82,22 @@ class AgeGroups extends StatelessWidget {
 }
 
 class YearsData extends DataTableSource {
-  YearsData();
+  final IBackend _backend;
+  List<Year> _years = <Year>[];
+
+  YearsData(this._backend) {
+    var competitors = _backend.getCompetitors();
+    _years = sortAgeGroups(competitors);
+  }
 
   @override
   DataRow? getRow(int index) {
     return DataRow.byIndex(
       index: index,
       cells: [
-        DataCell(
-          Text("1992"),
-        ),
-        DataCell(Text("männlich")),
-        DataCell(Text("5")),
+        DataCell(Text(_years[index].year.toString())),
+        DataCell(Text(_years[index].gender.toString3())),
+        DataCell(Text(_years[index].competitors.toString())),
       ],
     );
   }
@@ -93,7 +106,9 @@ class YearsData extends DataTableSource {
   bool get isRowCountApproximate => false;
 
   @override
-  int get rowCount => 1;
+  int get rowCount {
+    return _years.length;
+  }
 
   @override
   int get selectedRowCount => 0;

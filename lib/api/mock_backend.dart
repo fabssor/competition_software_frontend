@@ -13,7 +13,7 @@ List<Competitor> competitors = <Competitor>[
   Competitor.withId(5, "Jan-Torsten", "Rum", Gender.male, DateTime(1999, 6, 8)),
   Competitor.withId(6, "Star", "Maier", Gender.female, DateTime(1999, 6, 29)),
   Competitor.withId(7, "Emil", "Bäcker", Gender.male, DateTime(2009, 1, 1)),
-  Competitor.withId(9, "Karmen", "Bäcker", Gender.female, DateTime(2010, 1, 3)),
+  Competitor.withId(8, "Karmen", "Bäcker", Gender.female, DateTime(2010, 1, 3)),
 ];
 int nextId = competitors.length;
 

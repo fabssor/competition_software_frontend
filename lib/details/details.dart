@@ -18,7 +18,7 @@ class Details extends StatelessWidget {
       case 0:
         return Competitors(m);
       case 1:
-        return const AgeGroups();
+        return AgeGroups(m);
       case 2:
         return const Runs();
       case 3:
