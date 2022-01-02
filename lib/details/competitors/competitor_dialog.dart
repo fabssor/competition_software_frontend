@@ -1,7 +1,6 @@
-import 'package:competition_software_frontend/api/mock_backend.dart';
 import 'package:flutter/material.dart';
 import 'package:competition_software_frontend/api/competitor.dart';
-import 'package:competition_software_frontend/api/i_backend.dart';
+import 'package:flutter/services.dart';
 
 const _spaceBetweenColumnItems = 10.0;
 Gender _gender = Gender.female;
@@ -12,8 +11,9 @@ Widget _buildTextFormField(
     {required String labelText,
     TextEditingController? controller,
     bool readOnly = false,
-    Icon? suffixIcon,
-    Future<void> Function()? onTap}) {
+    Widget? suffixIcon,
+    Future<void> Function()? onTap,
+    List<TextInputFormatter>? inputFormatters}) {
   return TextFormField(
     controller: controller,
     readOnly: readOnly,
@@ -30,6 +30,7 @@ Widget _buildTextFormField(
       }
       return null;
     },
+    inputFormatters: inputFormatters,
   );
 }
 
@@ -117,21 +118,33 @@ Future<List<Competitor>?> competitorDialog(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
+                  const SizedBox(height: _spaceBetweenColumnItems),
+                  _buildTextFormField(
+                    controller: forenameController,
+                    labelText: "Vorname",
+                  ),
                   _buildTextFormField(
                     controller: surenameController,
                     labelText: "Nachname",
                   ),
                   const SizedBox(height: _spaceBetweenColumnItems),
                   _buildTextFormField(
-                    controller: forenameController,
-                    labelText: "Vorname",
-                  ),
-                  const SizedBox(height: _spaceBetweenColumnItems),
-                  _buildTextFormField(
                     controller: birthdayController,
                     readOnly: true,
                     labelText: "Geburtsdatum",
-                    suffixIcon: const Icon(Icons.calendar_today),
+                    suffixIcon: IconButton(
+                      icon: const Icon(Icons.calendar_today),
+                      onPressed: () async {
+                        final DateTime? dateTime = await getDate(context);
+                        if (dateTime == null) {
+                          return;
+                        } else {
+                          _birthday = dateTime;
+                          birthdayController.text =
+                              "${dateTime.day}.${dateTime.month}.${dateTime.year}";
+                        }
+                      },
+                    ),
                     onTap: () async {
                       final DateTime? dateTime = await getDate(context);
                       if (dateTime == null) {
