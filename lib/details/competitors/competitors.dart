@@ -1,3 +1,4 @@
+import 'package:competition_software_frontend/details/common/data_table_heading.dart';
 import 'package:flutter/material.dart';
 
 import 'package:data_table_2/data_table_2.dart';
@@ -27,37 +28,34 @@ class _CompetitorsState extends State<Competitors> {
           Expanded(
             child: PaginatedDataTable2(
               smRatio: 0.4,
-              lmRatio: 0.99,
-              columns: const [
-                DataColumn2(
-                  label: Text(
-                    'ID',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
+              lmRatio: 1.5,
+              columns: [
+                DataTableHeading(
+                  heading: 'ID',
                   size: ColumnSize.S,
                 ),
-                DataColumn2(
-                  label: Text('Name'),
+                DataTableHeading(
+                  heading: 'Vorname',
                   size: ColumnSize.L,
                 ),
-                DataColumn2(
-                  label: Text('Vorname'),
+                DataTableHeading(
+                  heading: 'Nachname',
                   size: ColumnSize.L,
                 ),
-                DataColumn2(
-                  label: Text('Geschlecht'),
+                DataTableHeading(
+                  heading: 'Geschlecht',
                   size: ColumnSize.L,
                 ),
-                DataColumn2(
-                  label: Text('Geburtsdatum'),
+                DataTableHeading(
+                  heading: 'Geburtsdatum',
                   size: ColumnSize.L,
                 ),
-                DataColumn2(
-                  label: Text(''),
+                DataTableHeading(
+                  heading: '',
                   size: ColumnSize.M,
                 )
               ],
-              source: MyData(
+              source: CompetitorsData(
                 context,
                 widget._backend,
                 setState,
@@ -100,12 +98,12 @@ class _CompetitorsState extends State<Competitors> {
   }
 }
 
-class MyData extends DataTableSource {
+class CompetitorsData extends DataTableSource {
   final BuildContext _context;
   final IBackend _backend;
   final Function _setState;
 
-  MyData(this._context, this._backend, this._setState);
+  CompetitorsData(this._context, this._backend, this._setState);
 
   @override
   DataRow? getRow(int index) {
@@ -116,8 +114,8 @@ class MyData extends DataTableSource {
         DataCell(
           Text(competitor.id.toString()),
         ),
-        DataCell(Text(competitor.surename.toString())),
         DataCell(Text(competitor.forename.toString())),
+        DataCell(Text(competitor.surename.toString())),
         DataCell(Text(competitor.gender.toString3())),
         DataCell(Text(competitor.birthday.toString2())),
         DataCell(
@@ -172,5 +170,5 @@ class MyData extends DataTableSource {
   int get rowCount => _backend.getNumberOfCompetitors();
 
   @override
-  int get selectedRowCount => 100;
+  int get selectedRowCount => 0;
 }
