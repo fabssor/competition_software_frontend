@@ -1,10 +1,13 @@
+import 'package:competition_software_frontend/api/i_backend.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'home.dart';
+import 'package:competition_software_frontend/api/mock_backend.dart';
 
 void main(List<String> args) {
-  runApp(const CsFrontend());
+  MockBackend backend = MockBackend();
+  runApp(CsFrontend(backend: backend));
   const initialSize = Size(1200, 700);
   appWindow.minSize = initialSize;
   appWindow.size = initialSize;
@@ -13,7 +16,10 @@ void main(List<String> args) {
 }
 
 class CsFrontend extends StatelessWidget {
-  const CsFrontend({Key? key}) : super(key: key);
+  final IBackend _backend;
+  const CsFrontend({Key? key, required IBackend backend})
+      : _backend = backend,
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +43,7 @@ class CsFrontend extends StatelessWidget {
                 ],
               ),
             ),
-            const Home(),
+            Home(backend: _backend),
           ],
         ),
       ),

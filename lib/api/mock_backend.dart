@@ -57,4 +57,9 @@ class MockBackend implements IBackend {
   List<Competitor> getCompetitors() {
     return competitors;
   }
+
+  @override
+  void createNewCompetition() {
+    Logger.log("Creating new Competition.");
+  }
 }

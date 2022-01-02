@@ -2,6 +2,17 @@
 
 A new Flutter project.
 
+## Dependencies
+
+### WSL2
+
+For running under WSL2 (with WSL-GUI) you need to install the package `zenity`:
+
+```sh
+sudo apt-get install
+```
+
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.

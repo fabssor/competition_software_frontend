@@ -1,8 +1,15 @@
+import 'package:competition_software_frontend/api/i_backend.dart';
+import 'package:competition_software_frontend/dropdown_menue.dart';
 import 'package:flutter/material.dart';
 import 'details/details.dart';
+import 'package:file_picker/file_picker.dart';
 
 class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+  const Home({Key? key, required IBackend backend})
+      : _backend = backend,
+        super(key: key);
+
+  final IBackend _backend;
 
   @override
   State<Home> createState() => _HomeState();
@@ -23,6 +30,35 @@ class _HomeState extends State<Home> {
                 _selectedIndex = index;
               });
             },
+            leading: SizedBox(
+              height: 100,
+              width: 200,
+              child: Stack(
+                children: [
+                  PopupMenuButton<String>(
+                    onSelected: onDropDownSelected,
+                    itemBuilder: (BuildContext context) {
+                      return dropDownMenueChoices;
+                    },
+                  ),
+                  Positioned.fill(
+                    top: 50,
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: FloatingActionButton.extended(
+                        icon: const Icon(Icons.add),
+                        label: const Text("Neuer Wettkampf"),
+                        onPressed: () async {
+                          widget._backend.createNewCompetition();
+                          FilePickerResult? result =
+                              await FilePicker.platform.pickFiles();
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
             extended: true,
             labelType: NavigationRailLabelType.none,
             destinations: const <NavigationRailDestination>[
@@ -59,7 +95,7 @@ class _HomeState extends State<Home> {
           ),
           // This is the main content.
           Expanded(
-            child: Details(_selectedIndex),
+            child: Details(_selectedIndex, widget._backend),
           ),
         ],
       ),
