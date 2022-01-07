@@ -2,6 +2,7 @@ import 'package:competition_software_frontend/api/competitor.dart';
 
 import 'package:competition_software_frontend/api/i_backend.dart';
 import 'package:competition_software_frontend/internals/logger.dart';
+import 'package:file_picker/file_picker.dart';
 
 List<Competitor> competitors = <Competitor>[
   Competitor.withId(0, "Max", "Mustermann", Gender.male, DateTime(1992, 6, 23)),
@@ -18,6 +19,8 @@ List<Competitor> competitors = <Competitor>[
 int nextId = competitors.length;
 
 class MockBackend implements IBackend {
+  bool _isOpen = false;
+
   @override
   Competitor? createCompetitor(Competitor competitor) {
     competitor.id = nextId;
@@ -59,7 +62,22 @@ class MockBackend implements IBackend {
   }
 
   @override
-  void createNewCompetition() {
+  Future<bool> createNewCompetition() async {
     Logger.log("Creating new Competition.");
+
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
+
+    _isOpen = true;
+    return Future<bool>.value(_isOpen);
+  }
+
+  @override
+  bool isOpen() {
+    return _isOpen;
+  }
+
+  @override
+  void closeCompetition() {
+    _isOpen = false;
   }
 }

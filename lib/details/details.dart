@@ -15,7 +15,6 @@ class Details extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(_view);
     switch (_view) {
       case navigationEntries.competitors:
         return Competitors(_backend);

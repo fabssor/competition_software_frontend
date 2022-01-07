@@ -6,6 +6,14 @@ List<PopupMenuEntry<String>> dropDownMenueChoices = [
     child: Text("Neuer Wettkampf..."),
   ),
   const PopupMenuItem<String>(
+    value: "openCompetition",
+    child: Text("Wettkampf öffnen..."),
+  ),
+  const PopupMenuItem<String>(
+    value: "closeCompetition",
+    child: Text("Wettkampf schließen"),
+  ),
+  const PopupMenuItem<String>(
     value: "saveCompetition",
     child: Text("Wettkampf speichern..."),
   ),
