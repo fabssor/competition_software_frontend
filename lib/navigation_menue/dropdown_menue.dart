@@ -15,7 +15,11 @@ List<PopupMenuEntry<String>> dropDownMenueChoices = [
   ),
   const PopupMenuItem<String>(
     value: "saveCompetition",
-    child: Text("Wettkampf speichern..."),
+    child: Text("Wettkampf speichern"),
+  ),
+  const PopupMenuItem<String>(
+    value: "saveCompetitionAs",
+    child: Text("Wettkampf speichern unter..."),
   ),
   const PopupMenuItem<String>(
     value: "settings",
@@ -27,9 +31,36 @@ List<PopupMenuEntry<String>> dropDownMenueChoices = [
   ),
 ];
 
-void onDropDownSelected(String val, BuildContext context) async {
-  switch (val) {
-    case 'about':
+void onDropDownSelected({
+  required String value,
+  required BuildContext context,
+  required Function onNewCompetition,
+  required Function onOpenCompetition,
+  required Function onCloseCompetition,
+  required Function onSaveCompetition,
+  required Function onSaveCompetitionAs,
+  required Function onSettings,
+}) async {
+  switch (value) {
+    case "newCompetition":
+      onNewCompetition();
+      break;
+    case "openCompetition":
+      onOpenCompetition();
+      break;
+    case "closeCompetition":
+      onCloseCompetition();
+      break;
+    case "saveCompetition":
+      onSaveCompetition();
+      break;
+    case "saveCompetitionAs":
+      onSaveCompetitionAs();
+      break;
+    case "settings":
+      onSettings();
+      break;
+    case "about":
       showAboutDialog(
           applicationName: "Competition Software",
           applicationVersion: "Version: 0.0.1 beta",

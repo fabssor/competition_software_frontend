@@ -15,10 +15,20 @@ class LeadingButtons extends StatelessWidget {
     Key? key,
     required this.backend,
     required this.onNewCompetition,
+    required this.onOpenCompetition,
+    required this.onSaveCompetition,
+    required this.onCloseCompetition,
+    required this.onSaveCompetitionAs,
+    required this.onSettings,
   }) : super(key: key);
 
   final IBackend backend;
   final Function onNewCompetition;
+  final Function onOpenCompetition;
+  final Function onSaveCompetition;
+  final Function onCloseCompetition;
+  final Function onSaveCompetitionAs;
+  final Function onSettings;
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +56,15 @@ class LeadingButtons extends StatelessWidget {
               child: PopupMenuButton<String>(
                 icon: const Icon(Icons.more_horiz),
                 onSelected: (String value) {
-                  onDropDownSelected(value, context);
+                  onDropDownSelected(
+                      value: value,
+                      context: context,
+                      onCloseCompetition: onCloseCompetition,
+                      onNewCompetition: onNewCompetition,
+                      onOpenCompetition: onOpenCompetition,
+                      onSaveCompetition: onSaveCompetition,
+                      onSaveCompetitionAs: onSaveCompetitionAs,
+                      onSettings: onSettings);
                 },
                 itemBuilder: (BuildContext context) {
                   return dropDownMenueChoices;
@@ -67,10 +85,20 @@ class NavigationMenue extends StatelessWidget {
     required this.onDestinationSelected,
     required this.disableNavigation,
     required this.onNewCompetition,
+    required this.onOpenCompetition,
+    required this.onSaveCompetition,
+    required this.onCloseCompetition,
+    required this.onSaveCompetitionAs,
+    required this.onSettings,
   }) : super(key: key);
   final IBackend backend;
   final Function onDestinationSelected;
   final Function onNewCompetition;
+  final Function onOpenCompetition;
+  final Function onSaveCompetition;
+  final Function onCloseCompetition;
+  final Function onSaveCompetitionAs;
+  final Function onSettings;
   final bool disableNavigation;
 
   @override
@@ -142,6 +170,11 @@ class NavigationMenue extends StatelessWidget {
         LeadingButtons(
           backend: backend,
           onNewCompetition: onNewCompetition,
+          onOpenCompetition: onOpenCompetition,
+          onSaveCompetition: onSaveCompetition,
+          onCloseCompetition: onCloseCompetition,
+          onSaveCompetitionAs: onSaveCompetitionAs,
+          onSettings: onSettings,
         ),
       ],
     );

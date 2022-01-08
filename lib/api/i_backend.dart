@@ -29,4 +29,8 @@ abstract class IBackend {
   Future<bool> createNewCompetition();
 
   void closeCompetition();
+
+  Future<void> saveCompetition({bool createNew = false});
+
+  Future<void> openCompetition();
 }

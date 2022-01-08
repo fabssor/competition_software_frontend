@@ -1,3 +1,4 @@
+import 'package:competition_software_frontend/internals/logger.dart';
 import 'package:intl/intl.dart';
 
 enum Gender { male, female }
@@ -52,6 +53,23 @@ class Competitor {
         _surename = surename,
         _gender = gender,
         _birthday = birthday;
+
+  Competitor.fromJson(Map<String, dynamic> json)
+      : id = json["id"],
+        _forename = json['forename'],
+        _surename = json['surename'],
+        _gender = (json['gender'].toString().compareTo("female") == 0)
+            ? Gender.female
+            : Gender.male,
+        _birthday = DateFormat("dd.MM.yyyy").parse(json['birthday']);
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "forename": _forename,
+        "surename": _surename,
+        "gender": _gender.toString2(),
+        "birthday": _birthday.toString2(),
+      };
 
   @override
   String toString() {

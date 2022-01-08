@@ -23,19 +23,36 @@ class _HomeState extends State<Home> {
       child: Row(
         children: <Widget>[
           NavigationMenue(
-              backend: widget.backend,
-              disableNavigation: !_isOpen,
-              onDestinationSelected: (val) {
-                setState(() {
-                  view = val;
-                });
-              },
-              onNewCompetition: () async {
-                await widget.backend.createNewCompetition();
-                setState(() {
-                  _isOpen = widget.backend.isOpen();
-                });
-              }),
+            backend: widget.backend,
+            disableNavigation: !_isOpen,
+            onDestinationSelected: (val) {
+              setState(() {
+                view = val;
+              });
+            },
+            onNewCompetition: () async {
+              await widget.backend.createNewCompetition();
+              setState(() {
+                _isOpen = widget.backend.isOpen();
+              });
+            },
+            onOpenCompetition: () async {
+              await widget.backend.openCompetition();
+              setState(() {
+                _isOpen = widget.backend.isOpen();
+              });
+            },
+            onSaveCompetition: () async {
+              await widget.backend.saveCompetition();
+            },
+            onCloseCompetition: () {
+              widget.backend.closeCompetition();
+            },
+            onSaveCompetitionAs: () async {
+              await widget.backend.saveCompetition(createNew: true);
+            },
+            onSettings: () {},
+          ),
           const VerticalDivider(
             thickness: 1,
             width: 1,
