@@ -1,4 +1,3 @@
-import 'package:competition_software_frontend/internals/logger.dart';
 import 'package:intl/intl.dart';
 
 enum Gender { male, female }
