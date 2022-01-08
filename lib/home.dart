@@ -47,6 +47,9 @@ class _HomeState extends State<Home> {
             },
             onCloseCompetition: () {
               widget.backend.closeCompetition();
+              setState(() {
+                _isOpen = widget.backend.isOpen();
+              });
             },
             onSaveCompetitionAs: () async {
               await widget.backend.saveCompetition(createNew: true);

@@ -67,21 +67,19 @@ class MockBackend implements IBackend {
 
   @override
   Future<bool> createNewCompetition() async {
+    _isOpen = false;
     String? path = await FilePicker.platform.saveFile(
         dialogTitle: 'Neuen Wettkampf anlegen',
         fileName: 'Wettkampf.wk',
         allowedExtensions: ['.wk']);
 
-    if (path == null) {
-      _isOpen = false;
-    } else {
-      _isOpen = true;
-
+    if (path != null) {
       if (File(path).existsSync()) {
         Logger.log("File already exists. New competition not created!");
       } else {
         _file = await File(path).create();
         Logger.log("Created new competiton.");
+        _isOpen = true;
       }
     }
     return Future<bool>.value(_isOpen);
@@ -97,6 +95,7 @@ class MockBackend implements IBackend {
     Logger.log("Close Competition ${_file?.path}");
     _file = null;
     _isOpen = false;
+    competitors.clear();
   }
 
   @override
